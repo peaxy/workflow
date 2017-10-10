@@ -277,6 +277,10 @@ class SimpleQueue implements Closeable, QueueConsumer
                         client.delete().guaranteed().forPath(itemPath);
                     }
                 }
+                catch ( InterruptedException e )
+                {
+                    throw e;
+                }
                 catch ( Throwable e )
                 {
                     log.error("Exception processing task at: " + itemPath, e);
