@@ -524,7 +524,7 @@ public class WorkflowManagerImpl implements WorkflowManager, WorkflowAdmin
         return schedulerSelector;
     }
 
-    private void executeTask(TaskExecutor taskExecutor, ExecutableTask executableTask)
+    private void executeTask(TaskExecutor taskExecutor, ExecutableTask executableTask) throws InterruptedException
     {
         if ( state.get() != State.STARTED )
         {
@@ -555,11 +555,6 @@ public class WorkflowManagerImpl implements WorkflowManager, WorkflowAdmin
             FutureTask<TaskExecutionResult> futureTask = new FutureTask<>(taskExecution::execute);
             taskRunnerService.execute(futureTask);
             result = futureTask.get();
-        }
-        catch ( InterruptedException e )
-        {
-            Thread.currentThread().interrupt();
-            return;
         }
         catch ( ExecutionException e )
         {
